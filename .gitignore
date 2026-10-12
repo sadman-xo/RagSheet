@@ -19,6 +19,14 @@ backups/
 *.duckdb
 *.duckdb.wal
 data/generated/
+# Load test reports: only the runs that the README cites are in the repo
+loadtest/reports/*
+!loadtest/reports/B_20261008_173954_*
+!loadtest/reports/B_20261008_174838_*
+!loadtest/reports/C_20261008_160819_*
+!loadtest/reports/L_20261008_164428_*
+!loadtest/reports/L_20261008_165305_*
+!loadtest/reports/R_20261008_154535_*
 loadtest/reports/*.html
 loadtest/reports/*_stats_history.csv
 loadtest/reports/*_exceptions.csv

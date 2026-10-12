@@ -1,4 +1,25 @@
-# RagSheet
+<h1 align="center">RagSheet</h1>
+
+<p align="center">
+  <b>Sales analytics with an AI assistant that does not make up numbers.</b><br/>
+  Dashboards, RAG chat with a local LLM, and role-based access that the server enforces in two layers.
+</p>
+
+<p align="center">
+  <img alt="Python" src="https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white">
+  <img alt="FastAPI" src="https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white">
+  <img alt="React" src="https://img.shields.io/badge/React-TypeScript-61DAFB?logo=react&logoColor=black">
+  <img alt="PostgreSQL" src="https://img.shields.io/badge/PostgreSQL_16-pgvector-4169E1?logo=postgresql&logoColor=white">
+  <img alt="DuckDB" src="https://img.shields.io/badge/DuckDB-FFF000?logo=duckdb&logoColor=black">
+  <img alt="Ollama" src="https://img.shields.io/badge/LLM-Ollama_%7C_vLLM-000000?logo=ollama&logoColor=white">
+  <img alt="Docker" src="https://img.shields.io/badge/Docker_Compose-2496ED?logo=docker&logoColor=white">
+</p>
+
+![RagSheet overview dashboard for the admin role](assets/screenshots/overview-admin.png)
+
+<sub>The screenshots show the generated dataset with 1,000,000 orders. The app was first named "Panorama", and the UI still shows that name.</sub>
+
+## What it is
 
 RagSheet is a sales reporting and analytics application for the e-commerce dataset `Test_sales_dataset(ecommerce_sales_dataset).csv` (10,000 orders, 2021-01 to 2024-12). It has:
 
@@ -8,6 +29,29 @@ RagSheet is a sales reporting and analytics application for the e-commerce datas
 - **Scale features that are built and measured:** 1,000,000 generated orders, api replicas behind an nginx load balancer, and an LLM gateway with a fair queue, load shedding, and a load balancer over LLM endpoints.
 
 Everything runs on the local computer with Docker Compose. No paid API is necessary.
+
+## Key results
+
+| Area | Result |
+|---|---|
+| Numbers in the AI answers | 100 % correct in the result tables on 53 gold questions. The grounding check replaces AI text that has a wrong number. |
+| Data access | 0 data leaks and 100 % refusal recall in the evaluation. Row-level security in PostgreSQL is a second layer behind the application checks. |
+| Load | 500 users on 1,000,000 orders: 0 failed requests of 66,870, dashboard p95 150–270 ms (3 api replicas, one laptop). |
+| Graceful degradation | When the GPU is busy, the user gets the correct table at once, with an "AI busy" notice, not an error. |
+
+See [Measured capacity](#measured-capacity) for the full results and the test conditions.
+
+## Screenshots
+
+**Each role sees only its own data.** A regional manager sees only Europe and no company totals. The operations role sees no cost, profit, or margin.
+
+| Regional manager (Europe) | Operations (profit hidden) |
+|---|---|
+| ![Overview for the Europe regional manager](assets/screenshots/overview-regional-manager.png) | ![Overview for the operations role](assets/screenshots/overview-operations.png) |
+
+| Explorer: any metric, dimension, and filter | Geography: region and country drill-down |
+|---|---|
+| ![Explorer page](assets/screenshots/explorer.png) | ![Geography page](assets/screenshots/geography.png) |
 
 ## Contents
 
@@ -22,7 +66,7 @@ Everything runs on the local computer with Docker Compose. No paid API is necess
 9. [Measured capacity](#measured-capacity)
 10. [Tests and scripts](#tests-and-scripts)
 11. [Troubleshooting](#troubleshooting)
-12. [Project layout and documents](#project-layout-and-documents)
+12. [Project layout](#project-layout)
 
 ## Quick start
 
@@ -325,4 +369,5 @@ backend/            FastAPI app (app/), migrations, tests, eval (gold questions,
 frontend/           React + Vite + TypeScript, nginx config, Playwright e2e
 loadtest/           Locust file and reports
 scripts/            PowerShell helper scripts
+assets/screenshots/ README images
 ```

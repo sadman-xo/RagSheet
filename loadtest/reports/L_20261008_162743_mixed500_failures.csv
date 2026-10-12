@@ -1,2 +1,0 @@
-Method,Name,Error,Occurrences
-POST,kpis,CatchResponseError('502'),1
