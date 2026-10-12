@@ -43,11 +43,25 @@ See [Measured capacity](#measured-capacity) for the full results and the test co
 
 ## Screenshots
 
-**Each role sees only its own data.** A regional manager sees only Europe and no company totals. The operations role sees no cost, profit, or margin.
+**Each role sees only its own data.** Managers see only their region or category, and no company totals. The operations role sees no cost, profit, or margin.
 
-| Regional manager (Europe) | Operations (profit hidden) |
+| Regional manager (Europe) | Category manager (Electronics) | Operations (profit hidden) |
+|---|---|---|
+| ![Overview for the Europe regional manager](assets/screenshots/overview-regional-manager.png) | ![Overview for the Electronics category manager](assets/screenshots/overview-category-manager.png) | ![Overview for the operations role](assets/screenshots/overview-operations.png) |
+
+**Report and analysis pages** (admin, all data):
+
+| Trends: seasonality and period comparison | Products: mix, leaders, and price bands |
 |---|---|
-| ![Overview for the Europe regional manager](assets/screenshots/overview-regional-manager.png) | ![Overview for the operations role](assets/screenshots/overview-operations.png) |
+| ![Trends page](assets/screenshots/trends.png) | ![Products page](assets/screenshots/products.png) |
+
+| Profitability: from list value to profit, discount ladder | Customers: segments and repeat buying |
+|---|---|
+| ![Profitability page](assets/screenshots/profitability.png) | ![Customers page](assets/screenshots/customers.png) |
+
+| Operations: status mix, backlog, and shipping | Compare: two periods or two groups |
+|---|---|
+| ![Operations page](assets/screenshots/operations.png) | ![Compare page](assets/screenshots/compare.png) |
 
 | Explorer: any metric, dimension, and filter | Geography: region and country drill-down |
 |---|---|
