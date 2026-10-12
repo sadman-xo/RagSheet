@@ -1,0 +1,23 @@
+﻿== docker stats
+panorama-api-2 cpu=0.18% mem=405.1MiB / 1.465GiB
+panorama-api-1 cpu=0.21% mem=392.7MiB / 1.465GiB
+panorama-llm-gateway-1 cpu=0.23% mem=45.01MiB / 256MiB
+panorama-frontend-1 cpu=0.00% mem=8.344MiB / 7.604GiB
+panorama-postgres-1 cpu=7.74% mem=398.5MiB / 1GiB
+panorama-ollama-1 cpu=99.83% mem=3.967GiB / 4GiB
+== pg_stat_database / connections
+xact_commit=32903 backends=17
+6f83d022f2e7|45.1|0|1557|253|1303
+75e2564f7af6|39.9|0|1488|276|1318
+== slowest statements
+47600.25 ms  2  COPY sales.fact_orders (order_id, date_key, geo_id, product_id, customer_sk, customer_segment, custo
+7943.18 ms  2  COPY (SELECT * FROM sales.scope_rows(true, NULL, true, NULL, true, true) ORDER BY order_date, order_
+7510.31 ms  2  COPY (SELECT * FROM sales.scope_rows(true, NULL, true, NULL, true, false) ORDER BY order_date, order
+5750.63 ms  2  COPY (SELECT * FROM sales.scope_rows(true, NULL, true, NULL, false, true) ORDER BY order_date, order
+4008.36 ms  2  COPY sales.dim_customer (customer_sk, customer_id, customer_key) FROM STDIN WITH (FORMAT csv)
+1364.77 ms  2  COPY (SELECT * FROM sales.scope_rows(false, 'North America', true, NULL, true, true) ORDER BY order_
+1275.26 ms  2  COPY (SELECT * FROM sales.scope_rows(false, 'Europe', true, NULL, true, true) ORDER BY order_date, o
+1184.98 ms  2  COPY (SELECT * FROM sales.scope_rows(true, NULL, false, 'Home & Kitchen', true, true) ORDER BY order
+== nvidia-smi
+utilization.gpu [%], memory.used [MiB], memory.total [MiB]
+8 %, 4503 MiB, 6144 MiB

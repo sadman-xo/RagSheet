@@ -1,0 +1,25 @@
+﻿== docker stats
+panorama-api-1 cpu=0.19% mem=634.5MiB / 1.465GiB
+panorama-api-2 cpu=0.83% mem=614.6MiB / 1.465GiB
+panorama-api-3 cpu=0.64% mem=590.8MiB / 1.465GiB
+panorama-llm-gateway-1 cpu=34.15% mem=51.54MiB / 256MiB
+panorama-ollama-1 cpu=148.87% mem=1.707GiB / 4GiB
+panorama-frontend-1 cpu=0.00% mem=4.945MiB / 7.604GiB
+panorama-postgres-1 cpu=0.20% mem=380.8MiB / 1GiB
+== pg_stat_database / connections
+xact_commit=1230773 backends=25
+29e843d7ace7|61.0|0|57855|2411|21810
+8af1559b8f05|58.3|0|54027|2361|20598
+ea7f6d52c69a|59.1|0|55787|2348|20946
+== slowest statements
+17582.64 ms  6  COPY sales.fact_orders (order_id, date_key, geo_id, product_id, customer_sk, customer_segment, custo
+5626.08 ms  4  COPY (SELECT * FROM sales.scope_rows(true, NULL, true, NULL, true, false) ORDER BY order_date, order
+5080.84 ms  4  COPY (SELECT * FROM sales.scope_rows(true, NULL, true, NULL, false, true) ORDER BY order_date, order
+3426.70 ms  1  COPY sales.fact_orders (order_id, date_key, geo_id, product_id, customer_sk, customer_segment, custo
+3301.24 ms  1  COPY sales.fact_orders (order_id, date_key, geo_id, product_id, customer_sk, customer_segment, custo
+3159.17 ms  1  COPY sales.fact_orders (order_id, date_key, geo_id, product_id, customer_sk, customer_segment, custo
+2821.44 ms  1  COPY sales.fact_orders (order_id, date_key, geo_id, product_id, customer_sk, customer_segment, custo
+2639.18 ms  6  COPY sales.dim_customer (customer_sk, customer_id, customer_key) FROM STDIN WITH (FORMAT csv)
+== nvidia-smi
+utilization.gpu [%], memory.used [MiB], memory.total [MiB]
+100 %, 4778 MiB, 6144 MiB

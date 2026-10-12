@@ -1,0 +1,14 @@
+{
+  "replicas": {
+    "88cd47c3ad72": 203,
+    "fd75bb40987b": 180
+  },
+  "chat_modes": {
+    "template": 274,
+    "cache": 77,
+    "http_429": 393,
+    "ai": 29,
+    "ai_replaced": 3
+  },
+  "slow_non_ai_turns": []
+}

@@ -1,0 +1,19 @@
+# NVIDIA GPU reservation for the LLM servers. The default .env adds this file.
+# For a computer without an NVIDIA GPU, set COMPOSE_FILE=docker-compose.yml (see .env.example).
+services:
+  ollama:
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+  vllm:
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]

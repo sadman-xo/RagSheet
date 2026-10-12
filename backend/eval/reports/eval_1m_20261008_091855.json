@@ -1,0 +1,329 @@
+{
+  "created_at": "2026-10-08T09:18:55+00:00",
+  "label": "1m",
+  "model": "1m",
+  "base": "http://frontend",
+  "ai_status": "skipped",
+  "items": 10,
+  "numeric_only": true,
+  "gates": {
+    "leaks": {
+      "value": 0,
+      "pass": true
+    },
+    "result_table_numbers": {
+      "value": 1.0,
+      "pass": true
+    },
+    "text_checks": {
+      "value": 1.0,
+      "pass": true
+    },
+    "intent_accuracy": {
+      "value": 1.0,
+      "pass": true
+    },
+    "refusal_recall": {
+      "value": 1.0,
+      "pass": true
+    }
+  },
+  "all_pass": true,
+  "summary": {
+    "modes": {
+      "template": 10
+    },
+    "latency_s": {
+      "template": {
+        "p50": 0.03,
+        "p95": 0.09,
+        "n": 10
+      },
+      "narrate_rule": {
+        "p50": null,
+        "p95": null,
+        "n": 0
+      },
+      "narrate_planner": {
+        "p50": null,
+        "p95": null,
+        "n": 0
+      }
+    },
+    "planner_turns": 0
+  },
+  "results": [
+    {
+      "id": "g01",
+      "user": "exec",
+      "question": "What was the gross revenue in 2023?",
+      "kind": "template",
+      "status": 200,
+      "mode": "template",
+      "intent": "metric",
+      "plan_source": "rule",
+      "seconds": 0.09,
+      "llm_calls": 0,
+      "answer": "Gross revenue for 2023 is 227,621,833.74 [R1].",
+      "checks": [
+        {
+          "metric": "gross_revenue",
+          "filters": {
+            "years": [
+              2023
+            ]
+          },
+          "expected": 227621833.74,
+          "in_table": true,
+          "in_text": true
+        }
+      ],
+      "intent_ok": true,
+      "leaks": []
+    },
+    {
+      "id": "g02",
+      "user": "exec",
+      "question": "What is the total net revenue?",
+      "kind": "template",
+      "status": 200,
+      "mode": "template",
+      "intent": "metric",
+      "plan_source": "rule",
+      "seconds": 0.07,
+      "llm_calls": 0,
+      "answer": "Net revenue is 383,356,602.46 [R1].",
+      "checks": [
+        {
+          "metric": "net_revenue",
+          "filters": null,
+          "expected": 383356602.46,
+          "in_table": true,
+          "in_text": true
+        }
+      ],
+      "intent_ok": true,
+      "leaks": []
+    },
+    {
+      "id": "g03",
+      "user": "exec",
+      "question": "What is the realized revenue?",
+      "kind": "template",
+      "status": 200,
+      "mode": "template",
+      "intent": "metric",
+      "plan_source": "rule",
+      "seconds": 0.03,
+      "llm_calls": 0,
+      "answer": "Realized revenue is 332,813,400.64 [R1].",
+      "checks": [
+        {
+          "metric": "delivered_revenue",
+          "filters": null,
+          "expected": 332813400.64,
+          "in_table": true,
+          "in_text": true
+        }
+      ],
+      "intent_ok": true,
+      "leaks": []
+    },
+    {
+      "id": "g04",
+      "user": "exec",
+      "question": "What is our profit margin?",
+      "kind": "template",
+      "status": 200,
+      "mode": "template",
+      "intent": "metric",
+      "plan_source": "rule",
+      "seconds": 0.03,
+      "llm_calls": 0,
+      "answer": "Margin is 27.07% [R1].",
+      "checks": [
+        {
+          "metric": "margin_pct",
+          "filters": null,
+          "expected": 27.07104014436045,
+          "in_table": true,
+          "in_text": true
+        }
+      ],
+      "intent_ok": true,
+      "leaks": []
+    },
+    {
+      "id": "g05",
+      "user": "exec",
+      "question": "What is the return rate?",
+      "kind": "template",
+      "status": 200,
+      "mode": "template",
+      "intent": "metric",
+      "plan_source": "rule",
+      "seconds": 0.02,
+      "llm_calls": 0,
+      "answer": "Return rate is 22.89% [R1].",
+      "checks": [
+        {
+          "metric": "return_rate",
+          "filters": null,
+          "expected": 22.894942400068885,
+          "in_table": true,
+          "in_text": true
+        }
+      ],
+      "intent_ok": true,
+      "leaks": []
+    },
+    {
+      "id": "g06",
+      "user": "exec",
+      "question": "What is the cancellation rate?",
+      "kind": "template",
+      "status": 200,
+      "mode": "template",
+      "intent": "metric",
+      "plan_source": "rule",
+      "seconds": 0.03,
+      "llm_calls": 0,
+      "answer": "Cancellation rate is 9.06% [R1].",
+      "checks": [
+        {
+          "metric": "cancellation_rate",
+          "filters": null,
+          "expected": 9.063,
+          "in_table": true,
+          "in_text": true
+        }
+      ],
+      "intent_ok": true,
+      "leaks": []
+    },
+    {
+      "id": "g07",
+      "user": "exec",
+      "question": "What is the average order value?",
+      "kind": "template",
+      "status": 200,
+      "mode": "template",
+      "intent": "metric",
+      "plan_source": "rule",
+      "seconds": 0.03,
+      "llm_calls": 0,
+      "answer": "Average order value is 532.07 [R1].",
+      "checks": [
+        {
+          "metric": "aov",
+          "filters": null,
+          "expected": 532.0717172,
+          "in_table": true,
+          "in_text": true
+        }
+      ],
+      "intent_ok": true,
+      "leaks": []
+    },
+    {
+      "id": "g08",
+      "user": "exec",
+      "question": "What was the revenue of Electronics in Q3 2023?",
+      "kind": "template",
+      "status": 200,
+      "mode": "template",
+      "intent": "metric",
+      "plan_source": "rule",
+      "seconds": 0.02,
+      "llm_calls": 0,
+      "answer": "Gross revenue for Electronics, Q3 2023 is 41,098,250.85 [R1].",
+      "checks": [
+        {
+          "metric": "gross_revenue",
+          "filters": {
+            "categories": [
+              "Electronics"
+            ],
+            "years": [
+              2023
+            ],
+            "quarters": [
+              3
+            ]
+          },
+          "expected": 41098250.85,
+          "in_table": true,
+          "in_text": true
+        }
+      ],
+      "intent_ok": true,
+      "leaks": []
+    },
+    {
+      "id": "g09",
+      "user": "rm.asia",
+      "question": "Electronics revenue in Q3 2023",
+      "kind": "template",
+      "status": 200,
+      "mode": "template",
+      "intent": "metric",
+      "plan_source": "rule",
+      "seconds": 0.02,
+      "llm_calls": 0,
+      "answer": "Gross revenue for Electronics, Q3 2023 is 12,783,646.47 [R1].",
+      "checks": [
+        {
+          "metric": "gross_revenue",
+          "filters": {
+            "categories": [
+              "Electronics"
+            ],
+            "years": [
+              2023
+            ],
+            "quarters": [
+              3
+            ]
+          },
+          "expected": 12783646.47,
+          "in_table": true,
+          "in_text": true
+        }
+      ],
+      "intent_ok": true,
+      "leaks": []
+    },
+    {
+      "id": "g10",
+      "user": "exec",
+      "question": "Which region had the highest revenue?",
+      "kind": "template",
+      "status": 200,
+      "mode": "template",
+      "intent": "breakdown",
+      "plan_source": "rule",
+      "seconds": 0.03,
+      "llm_calls": 0,
+      "answer": "Gross revenue by region: Asia 137,381,310.27; Middle East 134,035,740.87; North America 132,175,799.24; Europe 128,478,866.82 [R1].",
+      "checks": [
+        {
+          "metric": "gross_revenue",
+          "filters": {
+            "regions": [
+              "Middle East"
+            ]
+          },
+          "expected": 134035740.87,
+          "in_table": true,
+          "in_text": true
+        },
+        {
+          "text": "Middle East",
+          "ok": true
+        }
+      ],
+      "intent_ok": true,
+      "leaks": []
+    }
+  ]
+}

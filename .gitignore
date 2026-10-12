@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# Node
+node_modules/
+frontend/dist/
+frontend/test-results/
+frontend/playwright-report/
+
+# Local data and outputs
+backups/
+*.duckdb
+*.duckdb.wal
+data/generated/
+loadtest/reports/*.html
+loadtest/reports/*_stats_history.csv
+loadtest/reports/*_exceptions.csv
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local overrides (secrets never live in the repo; they are in Docker volumes)
+.env.local
+docker-compose.override.yml
+
+# Local dev scripts
+backend/scratch/
+*.tsbuildinfo
+*.tsbuildinfo
+
+# Saved LLM settings of scripts/llm.ps1
+.env.llm-*
+
+# Docs stay local only
+docs/
+
+# Local only
+.claude/
+instructions.md

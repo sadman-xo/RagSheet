@@ -1,0 +1,5 @@
+Method,Name,Error,Occurrences
+POST,/api/auth/login,HTTPError('502 Server Error: Bad Gateway for url: /api/auth/login'),1
+POST,orders:page1,CatchResponseError('502'),3
+POST,batch:overview,CatchResponseError('502'),1
+POST,kpis,CatchResponseError('502'),1

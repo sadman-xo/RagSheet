@@ -1,0 +1,2 @@
+Method,Name,Error,Occurrences
+POST,chat:ask,CatchResponseError('504'),1

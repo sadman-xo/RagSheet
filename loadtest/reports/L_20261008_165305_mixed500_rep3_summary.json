@@ -1,0 +1,197 @@
+{
+  "replicas": {
+    "8af1559b8f05": 20478,
+    "29e843d7ace7": 21804,
+    "ea7f6d52c69a": 20708
+  },
+  "chat_modes": {
+    "template": 2235,
+    "ai": 71,
+    "ai_replaced": 2,
+    "basic_shed": 747,
+    "cache": 289,
+    "basic_down": 36
+  },
+  "slow_non_ai_turns": [
+    {
+      "mode": "cache",
+      "s": 2.0,
+      "q": "Why did revenue drop in 2024?",
+      "timings": {
+        "entities": 285.7,
+        "rules": 285.9,
+        "tools": 390.5,
+        "retrieval": 1084.0,
+        "total": 1104.8
+      }
+    },
+    {
+      "mode": "template",
+      "s": 2.12,
+      "q": "Which country had the highest revenue?",
+      "timings": {
+        "entities": 1363.2,
+        "rules": 1363.3,
+        "tools": 1422.7,
+        "total": 1662.9
+      }
+    },
+    {
+      "mode": "template",
+      "s": 2.37,
+      "q": "Top 5 products by revenue",
+      "timings": {
+        "entities": 1527.7,
+        "rules": 1527.7,
+        "tools": 1604.0,
+        "total": 2014.6
+      }
+    },
+    {
+      "mode": "template",
+      "s": 2.0,
+      "q": "What can I see?",
+      "timings": {
+        "entities": 1084.8,
+        "rules": 1084.9,
+        "tools": 1198.5,
+        "total": 1431.3
+      }
+    },
+    {
+      "mode": "template",
+      "s": 2.7,
+      "q": "Top 5 products by revenue",
+      "timings": {
+        "entities": 332.3,
+        "rules": 332.4,
+        "tools": 440.5,
+        "total": 782.3
+      }
+    },
+    {
+      "mode": "template",
+      "s": 2.06,
+      "q": "What can I see?",
+      "timings": {
+        "entities": 1228.5,
+        "rules": 1228.5,
+        "tools": 1279.7,
+        "total": 1711.4
+      }
+    },
+    {
+      "mode": "template",
+      "s": 2.02,
+      "q": "What can I see?",
+      "timings": {
+        "entities": 1152.7,
+        "rules": 1152.8,
+        "tools": 1216.0,
+        "total": 1473.4
+      }
+    },
+    {
+      "mode": "template",
+      "s": 2.62,
+      "q": "Which country had the highest revenue?",
+      "timings": {
+        "entities": 1707.1,
+        "rules": 1707.2,
+        "tools": 1771.4,
+        "total": 1998.3
+      }
+    },
+    {
+      "mode": "cache",
+      "s": 2.33,
+      "q": "Compare 2022 and 2023",
+      "timings": {
+        "entities": 1185.2,
+        "rules": 1185.5,
+        "tools": 1240.0,
+        "retrieval": 1691.1,
+        "total": 1740.2
+      }
+    },
+    {
+      "mode": "template",
+      "s": 2.7,
+      "q": "Top 5 products by revenue",
+      "timings": {
+        "entities": 334.6,
+        "rules": 334.7,
+        "tools": 443.6,
+        "total": 787.0
+      }
+    },
+    {
+      "mode": "template",
+      "s": 2.75,
+      "q": "Top 5 products by revenue",
+      "timings": {
+        "entities": 585.8,
+        "rules": 585.8,
+        "tools": 672.0,
+        "total": 1867.9
+      }
+    },
+    {
+      "mode": "cache",
+      "s": 3.18,
+      "q": "Cancellation rate by payment method",
+      "timings": {
+        "entities": 489.7,
+        "rules": 489.8,
+        "tools": 552.2,
+        "retrieval": 2140.8,
+        "total": 2178.9
+      }
+    },
+    {
+      "mode": "template",
+      "s": 2.21,
+      "q": "What can I see?",
+      "timings": {
+        "entities": 835.0,
+        "rules": 835.1,
+        "tools": 880.0,
+        "total": 1182.0
+      }
+    },
+    {
+      "mode": "template",
+      "s": 2.54,
+      "q": "What is the return rate by shipping method?",
+      "timings": {
+        "entities": 793.8,
+        "rules": 794.0,
+        "tools": 873.9,
+        "total": 1165.6
+      }
+    },
+    {
+      "mode": "template",
+      "s": 2.78,
+      "q": "What can I see?",
+      "timings": {
+        "entities": 1126.5,
+        "rules": 1126.6,
+        "tools": 1226.9,
+        "total": 1520.7
+      }
+    },
+    {
+      "mode": "cache",
+      "s": 2.83,
+      "q": "Cancellation rate by payment method",
+      "timings": {
+        "entities": 917.7,
+        "rules": 917.9,
+        "tools": 988.2,
+        "retrieval": 1431.3,
+        "total": 1472.7
+      }
+    }
+  ]
+}

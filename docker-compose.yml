@@ -1,0 +1,256 @@
+name: panorama
+
+# Shared settings for the services that run the backend image.
+x-backend: &backend
+  image: panorama-backend:latest
+  build:
+    context: ./backend
+  env_file: .env
+  environment: &backend-env
+    # A shell variable overrides .env here (for example: $env:DATASET="1m"; docker compose up -d)
+    DATASET: ${DATASET:-sample}
+    API_REPLICAS: ${API_REPLICAS:-2}
+    LOADTEST_USERS: ${LOADTEST_USERS:-0}
+    LLM_PROVIDER: ${LLM_PROVIDER:-ollama}
+    LLM_ENDPOINT: ${LLM_ENDPOINT:-http://ollama:11434}
+    LLM_ENDPOINTS: ${LLM_ENDPOINTS:-}
+    LLM_MAX_WAIT_S: ${LLM_MAX_WAIT_S:-20}
+    LLM_MODEL: ${LLM_MODEL:-qwen3:4b-instruct-2507-q4_K_M}
+    LLM_PARALLEL: ${LLM_PARALLEL:-4}
+    LLM_TURN_ESTIMATE_S: ${LLM_TURN_ESTIMATE_S:-8}
+    LLM_NUM_THREAD: ${LLM_NUM_THREAD:-2}
+    OMP_NUM_THREADS: "1"
+    OPENBLAS_NUM_THREADS: "1"
+    MKL_NUM_THREADS: "1"
+    NUMEXPR_NUM_THREADS: "1"
+    TOKENIZERS_PARALLELISM: "false"
+  logging: &logging
+    driver: json-file
+    options:
+      max-size: "10m"
+      max-file: "3"
+
+services:
+  # One-shot: makes all secrets one time, in three separate volumes.
+  secrets:
+    <<: *backend
+    command: ["python", "-m", "app.secrets"]
+    volumes:
+      - secrets_db:/secrets/db
+      - secrets_app:/secrets/app
+      - secrets_gw:/secrets/gw
+    restart: "no"
+
+  postgres:
+    image: pgvector/pgvector:0.8.1-pg16
+    depends_on:
+      secrets:
+        condition: service_completed_successfully
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: panorama
+      # The entrypoint reads this file as root, and only when pg_data is empty.
+      POSTGRES_PASSWORD_FILE: /run/pgsecrets/postgres_password
+    command:
+      - postgres
+      - -c
+      - shared_buffers=256MB
+      - -c
+      - work_mem=8MB
+      - -c
+      - maintenance_work_mem=256MB
+      - -c
+      - effective_cache_size=1GB
+      - -c
+      - max_connections=100
+      - -c
+      - wal_compression=on
+      - -c
+      - max_wal_size=2GB
+      - -c
+      - shared_preload_libraries=pg_stat_statements
+      - -c
+      - pg_stat_statements.track=top
+      - -c
+      - log_min_duration_statement=500ms
+      - -c
+      - synchronous_commit=on
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - secrets_db:/run/pgsecrets:ro
+    healthcheck:
+      # TCP check, so the temporary setup server (socket only) never counts as healthy.
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U postgres -d panorama"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+      start_period: 30s
+    shm_size: 128mb
+    mem_limit: 1g
+    restart: unless-stopped
+    logging: *logging
+
+  # One-shot: roles, migrations, dataset, scope files, seed users, retention, RAG documents.
+  init:
+    <<: *backend
+    command: ["python", "-m", "app.init"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./data/raw:/data/raw:ro
+      - datasets:/datasets
+      - scopes:/scopes
+      - secrets_db:/secrets/db:ro
+      - secrets_app:/secrets/app:ro
+    restart: "no"
+
+  api:
+    <<: *backend
+    command:
+      - uvicorn
+      - app.main:app
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8000"
+      - --workers
+      - "${API_WORKERS:-1}"
+      - --proxy-headers
+      - --forwarded-allow-ips=*
+      - --timeout-graceful-shutdown
+      - "10"
+      - --timeout-keep-alive
+      - "75"  # longer than the nginx upstream keepalive_timeout (60 s): nginx never reuses a closed connection
+      - --no-access-log
+    depends_on:
+      init:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_healthy
+    deploy:
+      replicas: ${API_REPLICAS:-2}
+    cpus: 2
+    mem_limit: 1500m
+    volumes:
+      - scopes:/scopes:ro
+      - secrets_app:/secrets/app:ro
+      - ./backend/eval/reports:/app/eval/reports:ro  # evaluation reports for the Admin AI quality page
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health/live', timeout=2)"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 30s
+    stop_grace_period: 30s
+    restart: unless-stopped
+
+  # The only process that talks to the LLM servers. No database access.
+  llm-gateway:
+    <<: *backend
+    command: ["python", "-m", "app.gateway"]
+    depends_on:
+      secrets:
+        condition: service_completed_successfully
+    volumes:
+      - secrets_gw:/secrets/gw:ro
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:9000/health', timeout=2)"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    mem_limit: 256m
+    restart: unless-stopped
+
+  # Automated tests (docker compose --profile test run --rm tests)
+  tests:
+    <<: *backend
+    profiles: ["test"]
+    command: ["pytest", "-q", "-p", "no:cacheprovider"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./data/raw:/data/raw:ro
+      - secrets_db:/secrets/db:ro
+      - secrets_app:/secrets/app:ro
+    restart: "no"
+
+  # Static files and the API load balancer (nginx least_conn over the api replicas)
+  frontend:
+    image: panorama-frontend:latest
+    build:
+      context: ./frontend
+    depends_on:
+      api:
+        condition: service_started
+    ports:
+      - "127.0.0.1:8080:80"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1/lb/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    restart: unless-stopped
+    logging: *logging
+
+  ollama:
+    image: ollama/ollama:0.35.1
+    profiles: ["bundled-llm"]
+    environment:
+      OLLAMA_HOST: 0.0.0.0:11434
+      OLLAMA_NUM_PARALLEL: ${LLM_PARALLEL:-4}
+      OLLAMA_CONTEXT_LENGTH: "4096"
+      OLLAMA_KEEP_ALIVE: "-1"
+      OLLAMA_MAX_LOADED_MODELS: "1"
+      OLLAMA_MAX_QUEUE: "16"
+      OLLAMA_FLASH_ATTENTION: "1"
+      OLLAMA_KV_CACHE_TYPE: q8_0
+    volumes:
+      - ollama_models:/root/.ollama
+    mem_limit: ${OLLAMA_MEM_LIMIT:-4g}
+    restart: unless-stopped
+    logging: *logging
+
+  vllm:
+    image: vllm/vllm-openai:v0.10.1.1
+    profiles: ["vllm"]
+    command:
+      - --model
+      - Qwen/Qwen3-4B-AWQ
+      - --served-model-name
+      - Qwen/Qwen3-4B-AWQ
+      - --max-model-len
+      - "4096"
+      - --gpu-memory-utilization
+      - "${VLLM_GPU_UTIL:-0.75}"  # a share of the whole GPU: on a 6 GB laptop GPU, Windows uses ~1 GB
+      - --swap-space
+      - "1"
+      - --enable-prefix-caching
+      - --max-num-seqs
+      - "${LLM_PARALLEL:-8}"
+    volumes:
+      - hf_cache:/root/.cache/huggingface
+    shm_size: 2g
+    restart: unless-stopped
+    logging: *logging
+
+  locust:
+    image: locustio/locust:2.37.10
+    profiles: ["loadtest"]
+    volumes:
+      - ./loadtest:/mnt/locust
+    command: ["-f", "/mnt/locust/locustfile.py", "--host", "http://frontend"]
+    cpus: 2
+    mem_limit: 1g
+
+volumes:
+  secrets_db:
+  secrets_app:
+  secrets_gw:
+  pg_data:
+  datasets:
+  scopes:
+  ollama_models:
+  hf_cache:

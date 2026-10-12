@@ -1,0 +1,17 @@
+# Demo users. init seeds them with INSERT ... ON CONFLICT DO NOTHING.
+# All demo users have the same demo password (README: "Demo users").
+password: "Demo@2024"
+users:
+  - {username: admin,          display_name: "Alex Admin",          role: admin}
+  - {username: exec,           display_name: "Erin Executive",      role: executive}
+  - {username: rm.namerica,    display_name: "Nora North America",  role: regional_manager, region: "North America"}
+  - {username: rm.europe,      display_name: "Emil Europe",         role: regional_manager, region: "Europe"}
+  - {username: rm.asia,        display_name: "Aiko Asia",           role: regional_manager, region: "Asia"}
+  - {username: rm.mideast,     display_name: "Malik Middle East",   role: regional_manager, region: "Middle East"}
+  - {username: cm.electronics, display_name: "Elena Electronics",   role: category_manager, category: "Electronics"}
+  - {username: cm.clothing,    display_name: "Carlos Clothing",     role: category_manager, category: "Clothing"}
+  - {username: cm.home,        display_name: "Hana Home & Kitchen", role: category_manager, category: "Home & Kitchen"}
+  - {username: cm.books,       display_name: "Ben Books & Media",   role: category_manager, category: "Books & Media"}
+  - {username: cm.beauty,      display_name: "Bea Beauty & Health", role: category_manager, category: "Beauty & Health"}
+  - {username: analyst,        display_name: "Sam Analyst",         role: analyst}
+  - {username: ops,            display_name: "Olivia Operations",   role: operations}
