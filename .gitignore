@@ -38,6 +38,7 @@ loadtest/reports/*_exceptions.csv
 Thumbs.db
 
 # Local overrides (secrets never live in the repo; they are in Docker volumes)
+.env
 .env.local
 docker-compose.override.yml
 
